@@ -14,7 +14,7 @@ module.exports = (app, mountPoint) => {
     User.findOne({username: username}).then((user) => {
       if (user) {
         newUser = user;
-        return user.comparePassword(req.body.password);
+        return user.comparePassword(password);
       } else {
         return Promise.resolve(user);
       }

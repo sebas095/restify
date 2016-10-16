@@ -17,7 +17,7 @@ describe('User route', () => {
   });
 
   describe('POST /user', () => {
-    it.only('should create a new user', (done) => {
+    it('should create a new user', (done) => {
       const user = {
         username: 'sebas095',
         password: 'secret123'
