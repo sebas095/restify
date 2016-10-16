@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/sebas095/restify#readme",
   "dependencies": {
+    "bcrypt": "0.8.7",
     "colors": "1.1.2",
     "debug": "2.2.0",
     "lodash": "4.16.4",

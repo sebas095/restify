@@ -21,6 +21,7 @@ app.server.use(restify.bodyParser());
 // Routes
 const index = require('./routes');
 const movie = require('./routes/movie');
+const user = require('./routes/user');
 
 // mongoose.Promise = global.Promise;
 // mongoose.connect(config.db.url);
@@ -32,5 +33,6 @@ const movie = require('./routes/movie');
 
 index(app, '/');
 movie(app, '/movie');
+user(app, '/user');
 
 module.exports = app;

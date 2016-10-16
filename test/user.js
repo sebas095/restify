@@ -25,8 +25,8 @@ describe('User route', () => {
 
       request
         .post('/user')
-        .send(user)
         .set('Accept', 'application/json')
+        .send(user)
         .expect(201)
         .expect('Content-Type', /application\/json/)
       .end((err, res) => {
