@@ -7,7 +7,7 @@ const _ = require('lodash');
 describe('Movie route', () => {
   describe('POST /movie', () => {
     it('should create a movie', (done) => {
-      let movie = {
+      const movie = {
         title: 'back to the future',
         year: '1985'
       };
@@ -32,11 +32,11 @@ describe('Movie route', () => {
   describe('GET /movie', () => {
     it('should return all movies', (done) => {
       let movie_id, movie2_id;
-      let movie = {
+      const movie = {
         title: 'back to the future',
         year: '1985'
       };
-      let movie2 = {
+      const movie2 = {
         title: 'back to the future II',
         year: '1989'
       };
@@ -138,6 +138,7 @@ describe('Movie route', () => {
         movie_id = res.body.movie._id;
         return request
         .put('/movie/' + movie_id)
+        .send(movie)
         .set('Accept', 'application/json')
         .expect(200)
         .expect('Content-Type', /application\/json/)
