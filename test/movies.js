@@ -6,7 +6,7 @@ const request = supertest(host);
 describe('Movie route', () => {
   describe('Request to post', () => {
     it('should create a movie', (done) => {
-      const movie = {
+      let movie = {
         title: 'back to the future',
         year: '1985'
       };
@@ -21,7 +21,7 @@ describe('Movie route', () => {
         const {body} = res;
         expect(body).to.have.property('movie');
         expect(body.movie).to.have.property('title', 'back to the future');
-        expect(body.year).to.have.property('year', '1985');
+        expect(body.movie).to.have.property('year', '1985');
         expect(body.movie).to.have.property('_id');
         done(err);
       });
