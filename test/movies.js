@@ -113,7 +113,7 @@ describe('Movie route', () => {
         const {body} = res;
         expect(body).to.have.property('movie');
         expect(body.movie).to.have.property('_id', movie_id);
-        expect(body.movie).to.have.property('title', 'her');
+        expect(body.movie).to.have.property('title', 'Her');
         expect(body.movie).to.have.property('year', '2003');
         done();
       }, done);

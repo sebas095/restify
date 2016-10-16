@@ -23,5 +23,14 @@ module.exports = (app, mountPoint) => {
     res.send(201, {movie: Movie[_movie._id]});
   });
 
+  movieRouter.get(`${mountPoint}/:id`, (req, res) => {
+    console.log("GET:id ", req.params.id);
+    if (!req.params.id) {
+      res.send(403, {error: true, message: "Params empty"});
+    }
+
+    res.send(200, {movie: Movie[req.params.id]});
+  });
+
   movieRouter.applyRoutes(app.server);
 };
