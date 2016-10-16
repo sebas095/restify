@@ -92,7 +92,7 @@ describe('Movie route', () => {
       let movie_id;
       const movie = {
         title: 'Her',
-        year: '2003'
+        year: '2013'
       };
 
       request
@@ -114,7 +114,40 @@ describe('Movie route', () => {
         expect(body).to.have.property('movie');
         expect(body.movie).to.have.property('_id', movie_id);
         expect(body.movie).to.have.property('title', 'Her');
-        expect(body.movie).to.have.property('year', '2003');
+        expect(body.movie).to.have.property('year', '2013');
+        done();
+      }, done);
+    });
+  });
+
+  describe('PUT /movie', () => {
+    it('should modifies a movie', (done) => {
+      let movie_id;
+      const movie = {
+        title: 'Pulp Fiction',
+        year: '1993'
+      };
+
+      request
+        .post('/movie')
+        .set('Accept', 'application/json')
+        .send(movie)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+      .then((res) => {
+        movie_id = res.body.movie._id;
+        return request
+        .put('/movie/' + movie_id)
+        .set('Accept', 'application/json')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+      }, done)
+      .then((res) => {
+        const {body} = res;
+        expect(body).to.have.property('movie');
+        expect(body.movie).to.have.property('_id', movie_id);
+        expect(body.movie).to.have.property('title', 'Pulp Fiction');
+        expect(body.movie).to.have.property('year', '1993');
         done();
       }, done);
     });
