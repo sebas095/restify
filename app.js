@@ -5,8 +5,8 @@ require('colors');
 
 let app = {};
 
-// const env = process.env.NODE_ENV || 'development';
-// const config = require('./config' + env);
+const env = process.env.NODE_ENV || 'development';
+const config = require('./config/' + env);
 
 app.server = restify.createServer({
   name: 'simple-api-rest',
@@ -19,6 +19,7 @@ app.server.use(restify.queryParser());
 app.server.use(restify.bodyParser());
 
 // Routes
+const index = require('./routes');
 
 mongoose.Promise = global.Promise;
 // mongoose.connect(config.db.url);
@@ -27,5 +28,7 @@ mongoose.Promise = global.Promise;
 // app.db.on('open', () => {
 //   console.log('connected to db'.yellow);
 // });
+
+index(app, '/');
 
 module.exports = app;
