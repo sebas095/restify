@@ -137,11 +137,11 @@ describe('Movie route', () => {
       .then((res) => {
         movie_id = res.body.movie._id;
         return request
-        .put('/movie/' + movie_id)
-        .send(movie)
-        .set('Accept', 'application/json')
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
+          .put('/movie/' + movie_id)
+          .send(movie)
+          .set('Accept', 'application/json')
+          .expect(200)
+          .expect('Content-Type', /application\/json/)
       }, done)
       .then((res) => {
         const {body} = res;
@@ -150,6 +150,35 @@ describe('Movie route', () => {
         expect(body.movie).to.have.property('title', 'Pulp Fiction');
         expect(body.movie).to.have.property('year', '1993');
         done();
+      }, done);
+    });
+  });
+
+  describe('DELETE /movie/:id', () => {
+    it('should remove a movie', (done) => {
+      let movie_id;
+      const movie = {
+        title: 'Pulp Fiction',
+        year: '1993'
+      };
+
+      request
+        .post('/movie')
+        .set('Accept', 'application/json')
+        .send(movie)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+      .then((res) => {
+        movie_id = res.body.movie._id;
+        return request
+          .delete('/movie/' + movie_id)
+          .set('Accept', 'application/json')
+          .expect(400)
+          .expect('Content-Type', /application\/json/)
+      }, done)
+      .then((res) => {
+        const {body} = res;
+        expect(body).to.be.empty;
       }, done);
     });
   });
