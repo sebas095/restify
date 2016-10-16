@@ -1,0 +1,36 @@
+{
+  "name": "simple-api-rest",
+  "version": "1.0.0",
+  "description": "Creating a basic API REST using restify module",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebas095/restify.git"
+  },
+  "author": "sebastian duque restrepo <sebas_tian_95@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sebas095/restify/issues"
+  },
+  "homepage": "https://github.com/sebas095/restify#readme",
+  "dependencies": {
+    "colors": "1.1.2",
+    "debug": "2.2.0",
+    "mongoose": "4.6.3",
+    "morgan": "1.7.0",
+    "restify": "4.1.1",
+    "restify-router": "0.2.1"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "chai-as-promised": "6.0.0",
+    "mocha": "3.1.2",
+    "nodemon": "1.11.0",
+    "supertest": "2.0.0",
+    "supertest-as-promised": "4.0.0"
+  }
+}
