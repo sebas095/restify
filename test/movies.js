@@ -86,4 +86,37 @@ describe('Movie route', () => {
       }, done);
     });
   });
+
+  describe('GET /movie/:id', () => {
+    it('should return a movie', (done) => {
+      let movie_id;
+      const movie = {
+        title: 'Her',
+        year: '2003'
+      };
+
+      request
+        .post('/movie')
+        .set('Accept', 'application/json')
+        .send(movie)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+      .then((res) => {
+        movie_id = res.body.movie._id;
+        return request
+          .get('/movie/' + movie_id)
+          .set('Accept', 'application/json')
+          .expect(200)
+          .expect('Content-Type', /application\/json/)
+      }, done)
+      .then((res) => {
+        const {body} = res;
+        expect(body).to.have.property('movie');
+        expect(body.movie).to.have.property('_id', movie_id);
+        expect(body.movie).to.have.property('title', 'her');
+        expect(body.movie).to.have.property('year', '2003');
+        done();
+      }, done);
+    });
+  });
 });
