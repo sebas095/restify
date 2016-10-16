@@ -2,15 +2,21 @@ const supertest = require('supertest');
 const api = require('../app');
 const host = api.server;
 const request = supertest(host);
+const config = require('../config/test');
 const mongoose = require('mongoose');
 
 describe('Auth route', () => {
   before(() => {
     mongoose.Promise = global.Promise;
+    mongoose.connect(config.db.url);
   });
 
+  after((done) => {
+    mongoose.disconnect(done);
+    mongoose.models = {};
+  });
   describe('POST /', () => {
-    it.only('should authenticate a user', (done) => {
+    it('should authenticate a user', (done) => {
       let user = {
         username: 'sebas095',
         password: 'secret123'
@@ -23,7 +29,6 @@ describe('Auth route', () => {
         .expect(201)
         .expect('Content-Type', /application\/json/)
       .then((res) => {
-        user = res.body.user;
         return request
           .post('/auth')
           .set('Accept', 'application/json')

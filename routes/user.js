@@ -21,12 +21,12 @@ module.exports = (app, mountPoint) => {
     }).then((isMatch) => {
       if (typeof isMatch === 'object') return User.create(req.body);
       else if (typeof isMatch === 'boolean') {
-        res.send(201, {user: newUser});
+        res.send(201, {user: newUser.username});
       } else {
         res.send(403, {error: true, message: 'The user exist'});
       }
     }).then((user) => {
-      if (user) res.send(201, {user: user});
+      if (user) res.send(201, {user: user.username});
     }).catch((err) => {
       res.send(403, {error: true, message: err});
     });
