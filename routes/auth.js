@@ -2,7 +2,6 @@ const {Router} = require('restify-router');
 const authRouter = new Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const config = require('../config/test');
 
 module.exports = (app, mountPoint) => {
   authRouter.post(`${mountPoint}/`, (req, res) => {
@@ -19,7 +18,7 @@ module.exports = (app, mountPoint) => {
       return user.comparePassword(req.body.password);
     }).then((isMatch) => {
       if (isMatch) {
-        let token = jwt.sign(authUser, config.secret, {
+        let token = jwt.sign(authUser, app.config.secret, {
           expiresIn: '24hr'
         });
         res.send(201, {token: token});

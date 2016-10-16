@@ -1,12 +1,13 @@
 const restify = require('restify');
 const mongoose = require('mongoose');
 const logger = require('morgan');
+const authMiddleware = require('./middleware/auth');
 require('colors');
 
 let app = {};
 
-const env = process.env.NODE_ENV || 'development';
-const config = require('./config/' + env);
+const env = process.env.NODE_ENV || 'test' || 'development';
+app.config = require('./config/' + env);
 
 app.server = restify.createServer({
   name: 'simple-api-rest',
@@ -24,8 +25,8 @@ const movie = require('./routes/movie');
 const user = require('./routes/user');
 const auth = require('./routes/auth');
 
-// mongoose.Promise = global.Promise;
-// mongoose.connect(config.db.url);
+mongoose.Promise = global.Promise;
+// mongoose.connect(app.config.db.url);
 // app.db = mongoose.connection;
 //
 // app.db.on('open', () => {
@@ -33,8 +34,9 @@ const auth = require('./routes/auth');
 // });
 
 index(app, '/');
-movie(app, '/movie');
 user(app, '/user');
 auth(app, '/auth');
+app.server.use(authMiddleware);
+movie(app, '/movie');
 
 module.exports = app;
