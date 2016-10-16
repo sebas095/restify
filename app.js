@@ -22,7 +22,7 @@ app.server.use(restify.bodyParser());
 const index = require('./routes');
 const movie = require('./routes/movie');
 
-mongoose.Promise = global.Promise;
+// mongoose.Promise = global.Promise;
 // mongoose.connect(config.db.url);
 // app.db = mongoose.connection;
 //

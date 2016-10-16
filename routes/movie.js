@@ -1,13 +1,15 @@
 const {Router} = require('restify-router');
 const movieRouter = new Router();
-const _ = require('lodash');
-
-let Movie = {};
+const Movie = require('../models/movie');
 
 module.exports = (app, mountPoint) => {
   movieRouter.get(`${mountPoint}/`, (req, res) => {
     console.log("GET: ", req.body);
-    res.send(200, {movies: _.values(Movie)});
+    Movie.find().then((movies) => {
+      res.send(200, {movies: movies});
+    }).catch((err) => {
+      res.send(500, {error: true, message: "Internal server problem"});
+    });
   });
 
   movieRouter.post(`${mountPoint}/`, (req, res) => {
@@ -16,11 +18,11 @@ module.exports = (app, mountPoint) => {
       res.send(403, {error: true, message: "Body empty"});
     }
 
-    let _movie = req.body;
-    _movie._id = Date.now();
-    Movie[_movie._id] = _movie;
-
-    res.send(201, {movie: Movie[_movie._id]});
+    Movie.create(req.body).then((movie) => {
+      res.send(201, {movie: movie});
+    }).catch((err) => {
+      res.send(501, {message: "Problem creating the movie"});
+    });
   });
 
   movieRouter.get(`${mountPoint}/:id`, (req, res) => {
@@ -29,7 +31,11 @@ module.exports = (app, mountPoint) => {
       res.send(403, {error: true, message: "Params empty"});
     }
 
-    res.send(200, {movie: Movie[req.params.id]});
+    Movie.findOne({_id: req.params.id}).then((movie) => {
+      res.send(200, {movie: movie});
+    }).catch((err) => {
+      res.send(500, {error: true, message: "Internal server problem"});
+    });
   });
 
   movieRouter.put(`${mountPoint}/:id`, (req, res) => {
@@ -38,13 +44,11 @@ module.exports = (app, mountPoint) => {
       res.send(403, {error: true, message: "Request empty"});
     }
 
-    let new_movie = req.body;
-    new_movie._id = parseInt(req.params.id, 10);
-
-    Movie[req.params.id] = new_movie;
-    new_movie = Movie[req.params.id];
-
-    res.send(200, {movie: new_movie});
+    Movie.findByIdAndUpdate(req.params.id, req.body, {new: true}).then((movie) => {
+      res.send(200, {movie: movie});
+    }).catch((err) => {
+      res.send(500, {error: true, message: "Internal server problem"});
+    });
   });
 
   movieRouter.del(`${mountPoint}/:id`, (req, res) => {
@@ -53,8 +57,11 @@ module.exports = (app, mountPoint) => {
       res.send(403, {error: true, message: "Params empty"});
     }
 
-    delete Movie[req.params.id];
-    res.send(400, {});
+    Movie.findByIdAndRemove(req.params.id).then(() => {
+      res.send(400, {});
+    }).catch((err) => {
+      res.send(403, {error: true, message: "Request empty"});
+    });
   });
 
   movieRouter.applyRoutes(app.server);

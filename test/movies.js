@@ -2,9 +2,21 @@ const supertest = require('supertest');
 const api = require('../app');
 const host = api.server;
 const request = supertest(host);
+const mongoose = require('mongoose');
+const config = require('../config/test');
 const _ = require('lodash');
 
 describe('Movie route', () => {
+  before(() => {
+    mongoose.Promise = global.Promise;
+    mongoose.connect(config.db.url);
+  });
+
+  after((done) => {
+    mongoose.disconnect(done);
+    mongoose.models = {};
+  });
+
   describe('POST /movie', () => {
     it('should create a movie', (done) => {
       const movie = {
@@ -120,7 +132,7 @@ describe('Movie route', () => {
     });
   });
 
-  describe('PUT /movie', () => {
+  describe('PUT /movie/:id', () => {
     it('should modifies a movie', (done) => {
       let movie_id;
       const movie = {

@@ -22,7 +22,7 @@ server.on('error', onError);
 
 process.on('SIGINT', () => {
   console.log("\nShutdown the server, bye (:".yellow);
-  // app.db.close();
+  app.db.close();
   process.exit();
 });
 
