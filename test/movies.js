@@ -2,6 +2,7 @@ const supertest = require('supertest');
 const api = require('../app');
 const host = api.server;
 const request = supertest(host);
+const _ = require('lodash');
 
 describe('Movie route', () => {
   describe('POST /movie', () => {
@@ -47,7 +48,7 @@ describe('Movie route', () => {
         .expect(201)
         .expect('Content-Type', /application\/json/)
       .then((res) => {
-        const movie_id = res.body.movie._id;
+        movie_id = res.body.movie._id;
         return request
           .post('/movie')
           .set('Accept', 'application/json')
@@ -56,7 +57,7 @@ describe('Movie route', () => {
           .expect('Content-Type', /application\/json/)
       })
       .then((res) => {
-        const movie2_id = res.body.movie._id;
+        movie2_id = res.body.movie._id;
         return request
           .get('/movie')
           .set('Accept', 'application/json')
@@ -70,14 +71,14 @@ describe('Movie route', () => {
           .and.to.have.length.above(2);
 
         const {movies} = body;
-        const movie = movies.filter((mov) => mov._id === movie_id)[0];
-        const movie2 = movies.filter((mov) => mov._id === movie2_id)[0];
+        const movie = _.find(movies, {_id:  movie_id});
+        const movie2 = _.find(movies, {_id:  movie2_id});
 
         expect(movie).to.have.property('_id', movie_id);
         expect(movie).to.have.property('title', 'back to the future');
         expect(movie).to.have.property('year', '1985');
 
-        expect(movie2).to.have.property('_id', movie_id);
+        expect(movie2).to.have.property('_id', movie2_id);
         expect(movie2).to.have.property('title', 'back to the future II');
         expect(movie2).to.have.property('year', '1989');
 
