@@ -35,7 +35,7 @@ module.exports = (app, mountPoint) => {
   movieRouter.put(`${mountPoint}/:id`, (req, res) => {
     console.log("PUT:id ", req.params.id);
     if (!req.params.id && !req.body) {
-      res.send(403, {error: true, message: "Params empty"});
+      res.send(403, {error: true, message: "Request empty"});
     }
 
     let new_movie = req.body;
@@ -45,6 +45,16 @@ module.exports = (app, mountPoint) => {
     new_movie = Movie[req.params.id];
 
     res.send(200, {movie: new_movie});
+  });
+
+  movieRouter.del(`${mountPoint}/:id`, (req, res) => {
+    console.log("DELETE:id ", req.params.id);
+    if (!req.params.id) {
+      res.send(403, {error: true, message: "Params empty"});
+    }
+
+    delete Movie[req.params.id];
+    res.send(400, {});
   });
 
   movieRouter.applyRoutes(app.server);

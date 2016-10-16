@@ -179,6 +179,7 @@ describe('Movie route', () => {
       .then((res) => {
         const {body} = res;
         expect(body).to.be.empty;
+        done();
       }, done);
     });
   });
