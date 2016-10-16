@@ -13,11 +13,11 @@ describe('Index route, Hello World', () => {
         .set('Accept', 'application/json')
         .expect(200)
         .expect('Content-Type', /application\/json/)
-        .end((err, res) => {
-          const {body} = res;
-          expect(body).to.have.property('message', 'Hello World');
-          done(err);
-        });
+      .end((err, res) => {
+        const {body} = res;
+        expect(body).to.have.property('message', 'Hello World');
+        done(err);
+      });
     });
   });
 });
