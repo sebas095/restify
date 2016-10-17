@@ -1,4 +1,5 @@
 const restify = require('restify');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const authMiddleware = require('./middleware/auth');
@@ -18,6 +19,16 @@ app.server.use(logger('dev'));
 app.server.use(restify.acceptParser(app.server.acceptable));
 app.server.use(restify.queryParser());
 app.server.use(restify.bodyParser());
+app.server.use(cors({
+  origin: true,
+  credentials: true
+}));
+
+app.server.use(cors({
+  origin: true,
+  credentials: true
+}));
+
 
 // Routes
 const index = require('./routes');
