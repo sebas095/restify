@@ -6,7 +6,7 @@ require('colors');
 
 let app = {};
 
-const env = process.env.NODE_ENV || 'test' || 'development';
+const env = process.env.NODE_ENV || 'development';
 app.config = require('./config/' + env);
 
 app.server = restify.createServer({
@@ -26,18 +26,18 @@ const user = require('./routes/user');
 const auth = require('./routes/auth');
 
 mongoose.Promise = global.Promise;
-// mongoose.connect(app.config.db.url);
-// app.db = mongoose.connection;
-//
-// app.db.on('open', () => {
-//   console.log('connected to db'.yellow);
-// });
+mongoose.connect(app.config.db.url);
+app.db = mongoose.connection;
+
+app.db.on('open', () => {
+  console.log('connected to db'.yellow);
+});
 
 index(app, '/');
 user(app, '/user');
 auth(app, '/auth');
 
-// route authentication 
+// route authentication
 app.server.use(authMiddleware);
 movie(app, '/movie');
 
