@@ -36,6 +36,8 @@ mongoose.Promise = global.Promise;
 index(app, '/');
 user(app, '/user');
 auth(app, '/auth');
+
+// route authentication 
 app.server.use(authMiddleware);
 movie(app, '/movie');
 

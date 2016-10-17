@@ -31,7 +31,9 @@ describe('User route', () => {
         .expect('Content-Type', /application\/json/)
       .end((err, res) => {
         const {body} = res;
-        expect(body).to.have.property('user', 'sebas095');
+        expect(body).to.have.property('user');
+        expect(body.user).to.have.property('username', 'sebas095');
+        expect(body.user).to.have.property('_id');
         done(err);
       });
     });

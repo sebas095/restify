@@ -3,7 +3,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/' + env);
 
 const auth = (req, res, next) => {
-  let token = res.body || req.query.token || req.headers['x-access-token'];
+  const token = res.body || req.query.token || req.headers['x-access-token'];
   if (token) {
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) {

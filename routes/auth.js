@@ -18,7 +18,7 @@ module.exports = (app, mountPoint) => {
       return user.comparePassword(req.body.password);
     }).then((isMatch) => {
       if (isMatch) {
-        let token = jwt.sign(authUser, app.config.secret, {
+        const token = jwt.sign(authUser, app.config.secret, {
           expiresIn: '24hr'
         });
         res.send(201, {token: token});
