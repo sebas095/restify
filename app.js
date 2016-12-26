@@ -24,12 +24,6 @@ app.server.use(cors({
   credentials: true
 }));
 
-app.server.use(cors({
-  origin: true,
-  credentials: true
-}));
-
-
 // Routes
 const index = require('./routes');
 const movie = require('./routes/movie');
